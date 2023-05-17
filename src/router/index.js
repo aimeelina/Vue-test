@@ -9,6 +9,7 @@ import gragh from '@/views/gragh'
 import ranking from '@/views/ranking'
 import personal from '@/views/personal'
 import LoginPage from "@/views/LoginPage";
+import RegisterPage from "@/views/RegisterPage.vue";
 
 // const Answer = () => import('@/views/AnswerCar');
 
@@ -40,6 +41,12 @@ const routes = [
         component: LoginPage
 
      },
+    {
+        path: '/register',
+        name: "register",
+        component: RegisterPage
+
+    },
     {
         path: '/home',
         name: 'layout',
