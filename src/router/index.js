@@ -10,6 +10,7 @@ import ranking from '@/views/ranking'
 import personal from '@/views/personal'
 import LoginPage from "@/views/LoginPage";
 import RegisterPage from "@/views/RegisterPage.vue";
+import activation from "@/views/activation"
 
 // const Answer = () => import('@/views/AnswerCar');
 
@@ -32,10 +33,6 @@ const routes = [
     //     component:userTable
     // },
      {
-                path: '/',
-                redirect: '/login',
-     },
-     {
         path: '/login',
         name: "login",
         component: LoginPage
@@ -45,6 +42,12 @@ const routes = [
         path: '/register',
         name: "register",
         component: RegisterPage
+
+    },
+    {
+        path: '/activation/:id/:activationCode',
+        name: "activation",
+        component: activation
 
     },
     {
@@ -99,20 +102,22 @@ const router = new VueRouter({
     routes
 })
 
-// router.beforeEach((to, from, next) => {
-//     // to代表将要跳转的路径
-//     // from代表从哪个路径跳转而来
-//     // next()是一个函数，表示放行，next('/login')表示强制跳转到login页面
-//     if(to.path==='/login'){
-//         return next()
-//     }
-//     const Token = window.sessionStorage.getItem('token')
-//     console.log("token:",Token)
-//     if(!Token){
+router.beforeEach((to, from, next) => {
+    // to代表将要跳转的路径
+    // from代表从哪个路径跳转而来
+    // next()是一个函数，表示放行，next('/login')表示强制跳转到login页面
+    console.log(to.path.substring(0, 11))
+    if(to.path==='/login'||to.path.substring(0, 11) =='/activation'){
+        return next()
+    }
+    return next('/login')
+    // const Token = window.sessionStorage.getItem('token')
+    // console.log("token:",Token)
+    // if(!Token){
 
-//         return next('/login')
-//     }
-//     next()
-//     })
+    //     return next('/login')
+    // }
+    // next()
+    })
 
 export default router
