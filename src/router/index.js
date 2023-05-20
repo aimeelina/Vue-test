@@ -107,17 +107,17 @@ router.beforeEach((to, from, next) => {
     // from代表从哪个路径跳转而来
     // next()是一个函数，表示放行，next('/login')表示强制跳转到login页面
     console.log(to.path.substring(0, 11))
-    if(to.path==='/login'||to.path.substring(0, 11) =='/activation'){
+    if(to.path==='/login'||to.path==='/register'||to.path.substring(0, 11) =='/activation'){
         return next()
     }
-    return next('/login')
-    // const Token = window.sessionStorage.getItem('token')
-    // console.log("token:",Token)
-    // if(!Token){
+    // return next('/login')
+    const Token = window.sessionStorage.getItem('authorities')
+    console.log("authorities:",Token)
+    if(!Token){
 
-    //     return next('/login')
-    // }
-    // next()
+        return next('/login')
+    }
+    next()
     })
 
 export default router

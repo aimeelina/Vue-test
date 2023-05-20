@@ -4,11 +4,25 @@
       <div class="header">登录</div>
       <el-form ref="User" :model="User" label-width="80px" :rules="rules">
         <el-form-item label="用户名" prop="id">
-          <el-input v-model="User.username" placeholder="用户名" clearable></el-input>
+          <el-input v-model="User.name" placeholder="用户名" clearable></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="password">
           <el-input type="password" v-model="User.password" placeholder="密码" clearable></el-input>
         </el-form-item>
+        <el-form-item label="验证码" prop="code">
+          <el-col :span="12">
+          <el-input v-model="captchaText" placeholder="验证码" clearable></el-input>
+          </el-col>
+          <el-col :span="12">
+          <el-image
+                class="icon"
+                style="width: 100px; height: 40px"
+                :src="captchaUrl"
+                :fit="fit"
+                @click="getCode"></el-image>
+          </el-col>
+              
+      </el-form-item>
         <el-form-item label-width="10px">
           <el-button type="primary" @click="login" style="width: 100%; height: 45px">登   录</el-button>
         </el-form-item>
@@ -22,23 +36,16 @@
 
 <script>
 import request from "@/utils/request";
-
+ 
 export default {
   name: "LoginPage",
   data() {
     const checkID = (rule, value, callback) => {
-      if (!value) {
-        return callback(new Error('学号不能为空'));
+      if (value=== '') {
+        return callback(new Error('用户名不能为空'));
       }
-      let regPos = /[0-9]/;
-      if (!regPos.test(value)) {
-        callback(new Error('请输入学号'));
-      } else {
-        if (value.length !== 12) {
-          callback(new Error('学号必须为12位'));
-        } else {
+      else {
           callback();
-        }
       }
     };
     const checkPassword = (rule, value, callback) => {
@@ -49,10 +56,13 @@ export default {
       }
     };
     return {
+      captchaText: "",
+      fit: 'fill',
+      captchaUrl: "",
       isLogin: false,
       User: {
-          name: '张三',
-          password: '1233456'
+          name: '',
+          password: ''
       },
       loginDialog: false,
       rules: {
@@ -65,26 +75,50 @@ export default {
       }
     }
   },
+  created(){
+    this.getCode()
+  },
   methods: {
     login() {
       console.log("this.User:",this.User)
       //下方为校验登录的逻辑
-      request.post("/login", this.User,{headers: {'Content-Type': 'application/x-www-form-urlencoded'}}).then(res => {
+      request.post("/login", {
+        username: this.User.name,
+        password: this.User.password,
+        code: this.captchaText
+      },{headers: {'Content-Type': 'application/x-www-form-urlencoded'}}).then(res => {
         console.log("userdatas:",res)
-        // if (res.code === 200) {
-        //   this.$router.push('/home');
-        // } else {
-        //   this.$message({
-        //     type: "error",
-        //     message: "登陆失败"
-        //   })
-        // }
+        if(res.data.code===200){
+          sessionStorage.setItem('authorities', JSON.stringify('[]'))
+          this.$router.push('/home');
+        }
+        else {
+          this.$message({
+            type: "error",
+            message: res.data.message
+          })
+        }
       })
       //this.$router.push('/home');
     },
       register() {
           this.$router.push('/register')
+      },
+      getCode() { //点击的时候就图片就请求 图片就换了
+        let _this=this
+        request.get("/login/getKaptcha", this.User).then(res => {
+          _this.captchaUrl = 'data:image/png;base64,' + res.data.data
+          console.log("Kaptcha:",_this.captchaUrl)
+      })
+        // getCodeImg().then((res) => {
+        //   if (res.state == 200) {
+        //     this.codeUrl = res.data.img;
+        //     //this.codeUrl = "data:image/gif;base64," + res.data.img; //
+        //   }
+        //   //这边我简单判断了下 根据自己需求 进行判断 catch...啥的
+        // }
       }
+
   }
 }
 </script>
@@ -127,6 +161,10 @@ export default {
     background: coral;
 }
 
+.icon{
+    width: 6%;
+    vertical-align:middle;
+  }
 .el-main {
   color: #333;
   text-align: center;
