@@ -11,7 +11,7 @@ import personal from '@/views/personal'
 import LoginPage from "@/views/LoginPage";
 import RegisterPage from "@/views/RegisterPage.vue";
 import activation from "@/views/activation"
-
+import userSetting from "@/views/userSetting"
 // const Answer = () => import('@/views/AnswerCar');
 
 Vue.use(VueRouter)
@@ -91,6 +91,12 @@ const routes = [
                 path: 'personal',
                 name: 'personal',
                 component: personal
+            },
+            { 
+                path: 'userSetting',
+                name: 'userSetting',
+                component: userSetting
+               
             }
         
         ]

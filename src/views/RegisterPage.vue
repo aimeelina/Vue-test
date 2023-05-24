@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <el-main>
-      <div class="header">注册</div>
+      <div class="header">注册 </div>
       <el-form ref="User" :model="User" label-width="80px" :rules="rules">
         <el-form-item label="邮箱" prop="email">
             <el-input v-model="User.email" placeholder="邮箱" clearable></el-input>
