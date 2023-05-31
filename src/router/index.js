@@ -112,17 +112,17 @@ router.beforeEach((to, from, next) => {
     // to代表将要跳转的路径
     // from代表从哪个路径跳转而来
     // next()是一个函数，表示放行，next('/login')表示强制跳转到login页面
-    console.log(to.path.substring(0, 11))
-    if(to.path==='/login'||to.path==='/register'||to.path.substring(0, 11) =='/activation'){
-        return next()
-    }
-    // return next('/login')
-    const Token = window.sessionStorage.getItem('authorities')
-    console.log("authorities:",Token)
-    if(!Token){
-
-        return next('/login')
-    }
+    // console.log(to.path.substring(0, 11))
+    // if(to.path==='/login'||to.path==='/register'||to.path.substring(0, 11) =='/activation'){
+    //     return next()
+    // }
+    // // return next('/login')
+    // const Token = window.sessionStorage.getItem('authorities')
+    // console.log("authorities:",Token)
+    // if(!Token){
+    //
+    //     return next('/login')
+    // }
     next()
     })
 

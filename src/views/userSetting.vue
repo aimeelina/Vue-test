@@ -1,10 +1,12 @@
 <template>
-    <div>
+    <div style="width: 500px;height: 100px;line-height: 100px;text-align:center;">
         <span>修改头像</span>
         <el-upload
             class="avatar-uploader"
             action="http://localhost:8080/communityvue/uploadHaeder"
             :show-file-list="false"
+            :with-credentials="true"
+            :on-preview="handlePictureCardPreview"
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload">
             <img v-if="imageUrl" :src="imageUrl" class="avatar">
@@ -39,6 +41,7 @@
     height: 178px;
     display: block;
   }
+
 </style>
 
 <script>
@@ -50,8 +53,11 @@
       };
     },
     methods: {
+        handlePictureCardPreview(file) {
+            this.imageUrl = URL.createObjectURL(file.raw);
+        },
       handleAvatarSuccess(res, file) {
-        this.imageUrl = URL.createObjectURL(file.raw);
+        console.log("upload success")
       },
       beforeAvatarUpload(file) {
         const isJPG = file.type === 'image/jpeg';
