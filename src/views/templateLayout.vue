@@ -1,8 +1,4 @@
 <template>
-    <!-- <div>
-         <h1>test</h1>
-    </div> -->
-   
       <el-container style="height: 500px; border: 1px solid #eee">
     <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
       <el-menu :default-openeds="['1', '3']">
