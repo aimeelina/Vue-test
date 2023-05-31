@@ -35,7 +35,13 @@
       </el-dropdown>
     </el-menu-item>
     <el-menu-item>
-      <el-button size="medium" :style="iconStyle()" circle></el-button>
+      <div>
+          <el-image
+            style="width: 40px; height: 40px"
+            :src="User.headerURL"
+            :fit="fit"></el-image>
+      </div>
+      <!-- <el-button size="medium" :style="iconStyle()" circle></el-button> -->
     </el-menu-item>
     <el-menu-item index="personal">个人情况</el-menu-item>
     <el-menu-item index="ranking">班级排名</el-menu-item>
@@ -117,9 +123,7 @@ export default {
     setting(){
       this.$router.push('/home/userSetting');
     },
-    iconStyle(t) {
-      return "backgroundImage:url("+this.User.headerURL+");padding: 20px;";
-    }
+
   }
 }
 </script>
