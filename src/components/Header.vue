@@ -92,6 +92,7 @@ export default {
         headerURL:''
       },
       loginDialog: false,
+      fit: 'fill'
       // rules: {
       //   id: [
       //     {validator: checkID, trigger: 'blur'}

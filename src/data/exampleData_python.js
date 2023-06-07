@@ -3,7 +3,6 @@ const python_tree={
     "root":{
         "data": {
             "text": "python",
-            "ableToClick": true
         },
         "children":[
             {

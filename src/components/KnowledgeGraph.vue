@@ -52,10 +52,12 @@ export default {
         initRootNodePosition:['left', 'center']
       });
       this.mindMap.on('node_click', (data) => {
-        console.log("node_click",data)
-        _this.drawer = true
-        _this.text_data=data.nodeData.data.text
-        //console.log("nodemousedown datae",e)
+        // console.log("node_click",data)
+        // console.log("data.node.nodeData.data.ableToClick",data.node.nodeData.data.ableToClick)
+        if(data.nodeData.data.ableToClick){
+          _this.drawer = true
+          _this.text_data=data.nodeData.data.text
+        }
       });
       
     }
