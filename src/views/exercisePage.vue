@@ -100,7 +100,12 @@ export default {
         ruleForm: {
             resource: [],	//每一道题的值
         },
-        question: [
+        question: [],
+        rules: {
+
+      },
+      questionArrText: [],	
+      exerciseDisplayDemo: [
             {
                 id:1,
                 questionId:1,
@@ -111,83 +116,44 @@ export default {
                 optionD:"1d",
                 type:0,
                 imgUrl:""
-            },
-            {
-                id:2,
-                questionId:2,
-                question:"我是题干2",
-                optionA:"2a",
-                optionB:"2b",
-                optionC:"2c",
-                optionD:"2d",
-                type:0,
-                imgUrl:""
             }
-            ,
+        ],      
+        exerciseAnswerDemo: [
             {
-                id:3,
-                questionId:3,
-                question:"我是题干3",
-                optionA:"3a",
-                optionB:"3b",
-                optionC:"3c",
-                optionD:"3d",
-                type:1,
-                imgUrl:""
-            },
-            {
-                id:4,
-                questionId:4,
-                question:"我是题干4",
-                optionA:"",
-                optionB:"",
-                optionC:"",
-                optionD:"",
-                type:2,
-                imgUrl:""
-            } ,
-            {
-                id:5,
-                questionId:5,
-                question:"我是题干6",
-                optionA:"3a",
-                optionB:"3b",
-                optionC:"3c",
-                optionD:"3d",
-                type:1,
-                imgUrl:""
-            },
+                exerciseId:1,
+                ans:1,
+            }
         ],
-        rules: {
-
-      }
     }
   },
   created(){
     // this.getCode()
     this.getExercises();
-    for (let i = 0; i < this.question.length; i++) {
-            
-            //如果他是多选题的话，把它初始化为一个数组，而不是普通的字符串
-            
-          if (this.question[i].type == 1) {
-            this.ruleForm.resource[i] = []
-          }else{
-            this.ruleForm.resource[i] = ''
-          
-        }
-      }
-      console.log("this.question",this.question)
   },
   methods: {
     getExercises(){
-        let _this=this
         request.get("/getExercise/"+this.courseId+"/"+this.chapterId+"/"+this.subChapterId,{headers: {'Content-Type': 'application/x-www-form-urlencoded'}}).then(res => {
         console.log("userdatas:",res)
         if(res.data.code===200){
-            _this.question=res.data.data
-            console.log("res.data.data",res.data.data)
-            console.log("_this.question",_this.question)//要研究如何让这里加载完了才渲染
+            this.question=res.data.data
+            for(let i=0;i<this.question.length;i++){
+              var obj = {
+                exerciseId: this.question[i].id,
+                ans: 0,
+                }
+              this.questionArrText.push(obj)
+            }
+            for (let i = 0; i < this.question.length; i++) {
+                  
+                  //如果他是多选题的话，把它初始化为一个数组，而不是普通的字符串
+                  
+                if (this.question[i].type == 1) {
+                  this.ruleForm.resource[i] = []
+                }else{
+                  this.ruleForm.resource[i] = ''
+                
+              }
+            }
         }
         else {
           this.$message({
@@ -196,113 +162,62 @@ export default {
           })
         }
       })
-      console.log("getExercises  this.question",this.question)
+
     },
     change(e) {
     //   this.$forceUpdate()
-      console.log(this.ruleForm.resource)
+      // console.log(this.ruleForm.resource)
     },
-    submitForm(formName) {
-        // this.$refs[formName].validate((valid) => {			
-        // if (valid) {
-        // var arr = []
-        // var that = this
-        // var b = this.ruleForm.resource.notempty()
-        // if (b.length !== this.questionArrText.length) {	
-
-        //     //要是有未答的题目走if
-
-        //     this.$confirm(
-        //     '检测到您有未答完的题目，，是否确认提交试卷？',
-        //     '确认信息',
-        //     {
-        //         distinguishCancelAndClose: true,
-        //         confirmButtonText: '确认',
-        //         cancelButtonText: '取消',
-        //     }
-        //     )
-        //     .then(() => {			
-                    
-            
-        //         for (var i = 0; i < this.questionArrText.length; i++) {
-        //             var json = {}
-        //             json.id = that.questionArrText[i].id
-        //             //如果是数组（也就是多选题），那么就用join把他换为字符串
-        //             if (that.ruleForm.resource[i] instanceof Array) {
-        //                 json.text = that.ruleForm.resource[i].join()
-        //             } else {
-        //                 json.text = that.ruleForm.resource[i]
-        //             }
-        //             //如果这个题没答，那么就把他重置为空串，而不是给后端一个 undefined 字符串
-        //             if (json.text == undefined) {
-        //                 json.text = ''
-        //             }
-        //             json.isJD = this.questionArrText[i].questionType
-
-        //             arr.push(json)
-        //         }
-
-        //         var obj = {
-        //         djPaperid: this.id,
-        //         djStarttime: this.djStarttime,
-        //         djAnswers: JSON.stringify(arr),
-        //         }
-        //         //请求的接口
-        //         // msgApi
-        //         // .answers(obj)
-        //         // .then((res) => {
-        //         //     if (res.data.code == 200) {
-        //         //     //console.log(res)
-        //         //     this.dialogVisible = true
-        //         //     this.score = res.data.returnObject
-        //         //     }
-        //         // })
-        //         // .catch((err) => {})
-        //     })
-        //     .catch((action) => {})
-        // } else {													
-
-        //     //如果都答了，就走else 
-
-        //     for (var i = 0; i < this.questionArrText.length; i++) {
-        //     var json = {}
-        //     json.id = that.questionArrText[i].id
-        //     if (that.ruleForm.resource[i] instanceof Array) {
-        //         json.text = that.ruleForm.resource[i].join()
-        //     } else {
-        //         json.text = that.ruleForm.resource[i]
-        //     }
-
-        //     json.isJD = this.questionArrText[i].questionType
-
-        //     arr.push(json)
-        //     }
-
-        //     var obj = {
-        //     djPaperid: this.id,
-        //     djStarttime: this.djStarttime,
-        //     djAnswers: JSON.stringify(arr),
-        //     }
-        //     msgApi
-        //     .answers(obj)
-        //     .then((res) => {
-        //         if (res.data.code == 200) {
-        //         //console.log(res)
-        //         this.dialogVisible = true
-        //         this.score = res.data.returnObject
-        //         // this.$message.success(res.data.returnObject)
-        //         }
-        //     })
-        //     .catch((err) => {})
-        // }
-        // } else {
-        // //console.log('error submit!!')
-        // return false
-        // }
-    // }
-    // )
+    submitForm() {			
+      let that=this
+      let ans=''
+      for (var i = 0; i < this.questionArrText.length; i++) {
+        //如果是多选
+        if (that.ruleForm.resource[i] instanceof Array) {
+          ans = that.ruleForm.resource[i].join('')
+        } 
+        //如果是单选或判断
+        else {
+          ans = that.ruleForm.resource[i]
+        }
+        //如果这个题没答，那么就把他重置为空串，而不是给后端一个 undefined 字符串
+        if (ans== undefined) {
+          ans = ''
+        }
+        //将答案转成int
+        if(ans.indexOf('A')!=-1){
+          this.questionArrText[i].ans+=1;
+        }
+        if(ans.indexOf('B')!=-1){
+          this.questionArrText[i].ans+=2;
+        }
+        if(ans.indexOf('C')!=-1){
+          this.questionArrText[i].ans+=4;
+        }
+        if(ans.indexOf('D')!=-1){
+          this.questionArrText[i].ans+=8;
+        }
+        if(ans.indexOf('T')!=-1){
+          this.questionArrText[i].ans+=1;
+        }
+        if(ans.indexOf('F')!=-1){
+          this.questionArrText[i].ans+=2;
+        }
+      }
+      console.log(this.questionArrText)
+      request.post("/submitExercise", this.questionArrText,{headers: {'Content-Type': "application/json; charset=utf-8"}}).then(res => {
+            console.log("result:",res)
+            if (res.data.code === 200) {
+              this.$message.success(res.data.message)
+            } else {
+              this.$message({
+                type: "error",
+                message: res.data.message
+              })
+            }
+        })
+          }
       
-    },
 
   }
 }
