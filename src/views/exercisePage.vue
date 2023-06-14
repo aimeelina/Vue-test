@@ -31,16 +31,23 @@
             </p>
         </div>
 
+        <div v-if="item.imgUrl" class="demo-image">
+          <el-image
+            style="width: 100px; height: 100px"
+            :src="item.imgUrl"
+            fit="fit"></el-image>
+      </div>
+
         <!-- 如果questionType 等于0 那么他是单选题 -->
         <!-- 题目绑定的值是 ruleForm.resource[index]  -->
         
         <div v-if="item.type == 0" class="VSTD_box_item_select">
             <el-form-item label="" prop="resource">
             <el-radio-group v-model="ruleForm.resource[index]">
-                <el-radio label="A">{{ item.optionA }}</el-radio>
-                <el-radio label="B">{{ item.optionB }}</el-radio>
-                <el-radio label="C">{{ item.optionC }}</el-radio>
-                <el-radio label="D">{{ item.optionD }}</el-radio>
+                <el-radio :disabled="answered" label="A">{{ item.optionA }}</el-radio>
+                <el-radio :disabled="answered" label="B">{{ item.optionB }}</el-radio>
+                <el-radio :disabled="answered" label="C">{{ item.optionC }}</el-radio>
+                <el-radio :disabled="answered" label="D">{{ item.optionD }}</el-radio>
             </el-radio-group>
             </el-form-item>
         </div>
@@ -53,10 +60,10 @@
                 @input="change($event)"
                 v-model="ruleForm.resource[index]"
             >
-                <el-checkbox label="A">{{ item.optionA }}</el-checkbox>
-                <el-checkbox label="B">{{ item.optionB }}</el-checkbox>
-                <el-checkbox label="C">{{ item.optionC }}</el-checkbox>
-                <el-checkbox label="D">{{ item.optionD }}</el-checkbox>
+                <el-checkbox :disabled="answered" label="A">{{ item.optionA }}</el-checkbox>
+                <el-checkbox :disabled="answered" label="B">{{ item.optionB }}</el-checkbox>
+                <el-checkbox :disabled="answered" label="C">{{ item.optionC }}</el-checkbox>
+                <el-checkbox :disabled="answered" label="D">{{ item.optionD }}</el-checkbox>
                 <!-- <el-checkbox label="F">{{ item.stSelectf }}</el-checkbox> -->
             </el-checkbox-group>
             </el-form-item>
@@ -68,8 +75,8 @@
         <div v-if="item.type == 2" class="VSTD_box_item_select">
             <el-form-item label="" prop="resource">
             <el-radio-group v-model="ruleForm.resource[index]">
-                <el-radio label="True"></el-radio>
-                <el-radio label="False"></el-radio>
+                <el-radio :disabled="answered" label="True"></el-radio>
+                <el-radio :disabled="answered" label="False"></el-radio>
             </el-radio-group>
             </el-form-item>
         </div>
@@ -93,9 +100,10 @@ export default {
   name: "ExercisePage",
   data() {
     return {
+      answered:false,
         courseId:1,
         chapterId:1,
-        subChapterId:1,
+        subChapterId:2,
         fit: 'fill',
         ruleForm: {
             resource: [],	//每一道题的值
@@ -136,6 +144,7 @@ export default {
         console.log("userdatas:",res)
         if(res.data.code===200){
             this.question=res.data.data
+            console.log("this.question",this.question)
             for(let i=0;i<this.question.length;i++){
               var obj = {
                 exerciseId: this.question[i].id,
@@ -151,6 +160,20 @@ export default {
                   this.ruleForm.resource[i] = []
                 }else{
                   this.ruleForm.resource[i] = ''
+                
+              }
+            }
+            //加上如果返回的结果有useransw就锁定答案
+            if(this.question.length>0&&this.question[0].userAnswers!=null){
+              console.log("this.question[0].userAnswers",this.question[0].userAnswers)
+              this.answered=true
+              for(let i=0;i<this.question.length;i++){
+                if(this.question[i].type!=1){
+                  this.ruleForm.resource[i]=this.question[i].userAnswers
+                }
+                else{
+                  this.ruleForm.resource[i]=this.question[i].userAnswers.split('')
+                }
                 
               }
             }
@@ -222,3 +245,36 @@ export default {
   }
 }
 </script>
+<style>
+.el-checkbox__input.is-disabled + .el-checkbox__label {
+    color: #606266 !important;
+}
+ 
+.el-checkbox__input.is-disabled.is-checked + .el-checkbox__label {
+    color: #606266 !important;
+}
+ 
+.el-checkbox__input.is-disabled.is-checked .el-checkbox__inner:after {
+    border-color: #606266 !important;
+}
+ 
+.el-radio__input.is-disabled + span.el-radio__label {
+    color: #606266 !important;
+}
+ 
+.el-radio__input.is-disabled.is-checked .el-radio__inner::after {
+    background-color: #606266 !important;
+}
+ 
+.el-radio__input.is-disabled .el-radio__inner, .el-radio__input.is-disabled.is-checked .el-radio__inner {
+    border-color: #606266 !important;
+}
+ 
+.el-input.is-disabled .el-input__inner, textarea:disabled {
+    color: #606266 !important;
+}
+ 
+.el-range-editor.is-disabled input {
+    color: #606266 !important;
+}
+</style>

@@ -13,6 +13,7 @@ import RegisterPage from "@/views/RegisterPage.vue";
 import activation from "@/views/activation"
 import userSetting from "@/views/userSetting"
 import ExercisePage from "@/views/exercisePage"
+import TeacherUploadExercise from "@/views/teacherUploadExercise"
 // const Answer = () => import('@/views/AnswerCar');
 
 Vue.use(VueRouter)
@@ -106,6 +107,12 @@ const routes = [
         path: '/exercise',
         name: "exercise",
         component: ExercisePage
+
+     },
+     {
+        path: '/teacherUploadExercise/:courseId',
+        name: "teacherUploadExercise",
+        component: TeacherUploadExercise
 
      },
    
