@@ -160,13 +160,7 @@ const routes = [
         name: "exercise",
         component: ExercisePage
 
-     },
-     {
-        path: '/teacherUploadExercise/:courseId',
-        name: "teacherUploadExercise",
-        component: TeacherUploadExercise
-
-     },
+     }
    
 ]
 
