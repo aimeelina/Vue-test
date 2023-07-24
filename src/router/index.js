@@ -3,7 +3,8 @@ import VueRouter from 'vue-router'
 import tempLayout from '@/views/templateLayout'
 import TestElementUI from '@/views/TestElementUI'
 import userTable from '@/views/userTable'
-import Layout from "@/layout/Layout";
+import CoursePageLayout from "@/layout/CoursePageLayout";
+import InitLayout from "@/layout/InitLayout";
 import Main from "@/views/Main";
 import gragh from '@/views/gragh'
 import ranking from '@/views/ranking'
@@ -13,6 +14,7 @@ import RegisterPage from "@/views/RegisterPage.vue";
 import activation from "@/views/activation"
 import userSetting from "@/views/userSetting"
 import ExercisePage from "@/views/exercisePage"
+import AllCourses from "@/views/AllCourses"
 // const Answer = () => import('@/views/AnswerCar');
 
 Vue.use(VueRouter)
@@ -53,9 +55,60 @@ const routes = [
     },
     {
         path: '/home',
-        name: 'layout',
-        component: Layout,
+        name: 'InitLayout',
+        component: InitLayout,
         redirect: '/home/main',
+        children: [
+           
+            {
+                path:'allcourses',
+                name:'allcourses',
+                component:AllCourses
+            },
+            {
+                path:'button',
+                name:'button',
+                component:TestElementUI
+            },
+            {
+                path:'users',
+                name:'users',
+                component:userTable
+            },
+            {
+                path: 'main',
+                name: 'Main',
+                component: Main
+            },
+            {
+                path: 'gragh',
+                name: 'gragh',
+                component: gragh
+            },
+            {
+                path: 'ranking',
+                name: 'ranking',
+                component: ranking
+            },
+            {
+                path: 'personal',
+                name: 'personal',
+                component: personal
+            },
+            { 
+                path: 'userSetting',
+                name: 'userSetting',
+                component: userSetting
+               
+            }
+        
+        ]
+    },
+    {
+        path: '/coursehome',
+        name: 'CoursePageLayout',
+        component: CoursePageLayout,
+        redirect: '/coursehome/main',
         children: [
            
             {
