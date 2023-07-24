@@ -161,6 +161,12 @@ const routes = [
         component: ExercisePage
 
      },
+     {
+        path: '/teacherUploadExercise/:courseId',
+        name: "teacherUploadExercise",
+        component: TeacherUploadExercise
+
+     },
    
 ]
 
