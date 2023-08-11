@@ -2,7 +2,6 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import tempLayout from '@/views/templateLayout'
 import TestElementUI from '@/views/TestElementUI'
-import userTable from '@/views/userTable'
 import CoursePageLayout from "@/layout/CoursePageLayout";
 import InitLayout from "@/layout/InitLayout";
 import Main from "@/views/Main";
@@ -15,6 +14,8 @@ import activation from "@/views/activation"
 import userSetting from "@/views/userSetting"
 import ExercisePage from "@/views/exercisePage"
 import AllCourses from "@/views/AllCourses"
+import MessageList from "@/views/MessageList"
+import PickedCourses from "@/views/PickedCourses"
 // const Answer = () => import('@/views/AnswerCar');
 
 Vue.use(VueRouter)
@@ -66,15 +67,16 @@ const routes = [
                 component:AllCourses
             },
             {
+                path:'pickedCourses',
+                name:'pickedCourses',
+                component:PickedCourses
+            },
+            {
                 path:'button',
                 name:'button',
                 component:TestElementUI
             },
-            {
-                path:'users',
-                name:'users',
-                component:userTable
-            },
+ 
             {
                 path: 'main',
                 name: 'Main',
@@ -99,7 +101,11 @@ const routes = [
                 path: 'userSetting',
                 name: 'userSetting',
                 component: userSetting
-               
+            },
+            {
+                path:'messageList',
+                name:'messageList',
+                component:MessageList
             }
         
         ]
@@ -121,11 +127,7 @@ const routes = [
                 name:'button',
                 component:TestElementUI
             },
-            {
-                path:'users',
-                name:'users',
-                component:userTable
-            },
+ 
             {
                 path: 'main',
                 name: 'Main',
