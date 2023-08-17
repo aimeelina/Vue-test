@@ -103,7 +103,7 @@ export default {
       answered:false,
         courseId:1,
         chapterId:1,
-        subChapterId:2,
+        subChapterId:1,
         fit: 'fill',
         ruleForm: {
             resource: [],	//每一道题的值
