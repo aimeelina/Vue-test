@@ -16,26 +16,12 @@ import ExercisePage from "@/views/exercisePage"
 import AllCourses from "@/views/AllCourses"
 import MessageList from "@/views/MessageList"
 import PickedCourses from "@/views/PickedCourses"
+import uploadResource from "@/views/UploadResource"
 // const Answer = () => import('@/views/AnswerCar');
 
 Vue.use(VueRouter)
 
 const routes = [
-    // {
-    //     path:'/list',
-    //     name:'tempLayout',
-    //     component:tempLayout
-    // },
-    // {
-    //     path:'/button',
-    //     name:'button',
-    //     component:TestElementUI
-    // },
-    // {
-    //     path:'/users',
-    //     name:'users',
-    //     component:userTable
-    // },
      {
         path: '/login',
         name: "login",
@@ -58,7 +44,7 @@ const routes = [
         path: '/home',
         name: 'InitLayout',
         component: InitLayout,
-        redirect: '/home/main',
+        redirect: '/home/allcourses',
         children: [
            
             {
@@ -70,27 +56,6 @@ const routes = [
                 path:'pickedCourses',
                 name:'pickedCourses',
                 component:PickedCourses
-            },
-            {
-                path:'button',
-                name:'button',
-                component:TestElementUI
-            },
- 
-            {
-                path: 'main',
-                name: 'Main',
-                component: Main
-            },
-            {
-                path: 'gragh',
-                name: 'gragh',
-                component: gragh
-            },
-            {
-                path: 'ranking',
-                name: 'ranking',
-                component: ranking
             },
             {
                 path: 'personal',
@@ -111,23 +76,11 @@ const routes = [
         ]
     },
     {
-        path: '/coursehome',
+        path: '/coursehome/:courseId/:chapterId',
         name: 'CoursePageLayout',
         component: CoursePageLayout,
-        redirect: '/coursehome/main',
+        redirect: '/coursehome/:courseId/:chapterId/main',
         children: [
-           
-            {
-                path:'list',
-                name:'tempLayout',
-                component:tempLayout
-            },
-            {
-                path:'button',
-                name:'button',
-                component:TestElementUI
-            },
- 
             {
                 path: 'main',
                 name: 'Main',
@@ -154,13 +107,18 @@ const routes = [
                 component: userSetting
                
             }
-        
         ]
     },
     {
-        path: '/exercise',
+        path: '/exercise/:courseId/:chapterId/:subChapterId',
         name: "exercise",
         component: ExercisePage
+
+     },
+     {
+        path: '/upload/resource',
+        name: "uploadResource",
+        component: uploadResource
 
      }
    
@@ -182,7 +140,7 @@ router.beforeEach((to, from, next) => {
     // const Token = window.sessionStorage.getItem('authorities')
     // console.log("authorities:",Token)
     // if(!Token){
-    //
+    
     //     return next('/login')
     // }
     next()

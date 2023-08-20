@@ -10,7 +10,7 @@
     </div> -->
     <div class="images">
       <div v-for="(item, index) in courses" :key="index" class="image-middle">  
-        <el-card shadow="hover" :body-style="{ padding: '10px' }" @click.native="clickCourse(item)">    
+        <el-card shadow="hover" :body-style="{ padding: '10px' }" @click.native="clickCourse(index)">    
         <el-image :src="item.imgUrl" class="image"/>
         <!-- <el-popover>  -->
         <!-- <img :src="item.imgUrl" slot="reference" class="image"/>     -->
@@ -39,10 +39,11 @@
     },
     created(){
           request.get("/pickedCourse",{headers: {'Content-Type': 'application/x-www-form-urlencoded'}}).then(res => {
-                // console.log("Courses:",res)
+                //console.log("Courses:",res)
                 if(res.data.code===200){
                   for(let i=0;i<res.data.data.length;i++){
                     var obj = {
+                      id:res.data.data[i].id,
                       courseName: res.data.data[i].courseName,
                       imgUrl: res.data.data[i].imgUrl
                       }
@@ -59,8 +60,9 @@
               })
         },
     methods: {
-        clickCourse(item){
-            console.log("点击了课程：",item)
+        clickCourse(index){
+            //console.log("点击了第",index,"个课程,将跳转到 coursehome/",this.courses[index].id,"/1")
+            this.$router.push('/coursehome/'+this.courses[index].id+"/1");
         }
   }
   }

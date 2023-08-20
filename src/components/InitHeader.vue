@@ -1,6 +1,7 @@
 <template>
-  <el-menu :default-active="'activeIndex'" router class="el-menu-demo" style="border-bottom-color: #5c5e63;" mode="horizontal"
-           @select="" background-color="#37373c" active-text-color="#f6f4ef" text-color="rgb(184 184 184)">
+  <el-menu :default-active=activeIndex router class="el-menu-demo" style="border-bottom-color: #5c5e63;" mode="horizontal"
+           @select="" background-color="#37373c" active-text-color="#f6f4ef" text-color="rgb(184 184 184)" 
+           >
     <el-menu-item disabled style="float: left; opacity: 1; cursor: auto; font-size: 20px">AI课堂</el-menu-item>
 
     <!-- <el-menu-item disabled style="opacity: 1; cursor: auto">{{ User.name }}, {{ User.id }}</el-menu-item> -->

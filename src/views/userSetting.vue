@@ -3,7 +3,7 @@
         <span>修改头像</span>
         <el-upload
             class="avatar-uploader"
-            action="http://localhost:8080/communityvue/uploadHaeder"
+            action="http://localhost:8080/communityvue/upload/haeder"
             :show-file-list="false"
             :with-credentials="true"
             :on-preview="handlePictureCardPreview"

@@ -8,7 +8,7 @@
       :modal="false"
       :modal-append-to-body="false"
       >
-      <span>{{text_data}}</span>
+      <el-button type="primary" @click="clickExercise()">习题</el-button>
     </el-drawer>
     <div class="mindMapContainer" id="mindMapContainer"></div>
   </div>
@@ -25,7 +25,8 @@ export default {
       mindmapdata: null,
       drawer: false,
       direction: 'rtl',
-      text_data:"..."
+      text_data:"...",
+      subChapterId:1
     }
   },
   mounted() {
@@ -33,6 +34,10 @@ export default {
     this.init()
   },
   methods: {
+    clickExercise(){
+      console.log("this",this)
+      this.$router.push('/exercise/'+this.$route.params.courseId+"/"+this.$route.params.chapterId+"/"+this.subChapterId);
+    },
     getData() {
       let storeData = getData()
       this.mindMapData = storeData
@@ -40,7 +45,7 @@ export default {
     init() {
       let _this=this
       let {root, layout, theme, view} = this.mindMapData
-      console.log("this.mindMapData", this.mindMapData)
+      //console.log("this.mindMapData", this.mindMapData)
       this.mindMap = new MindMap({
         el: document.getElementById('mindMapContainer'),
         data: root,
@@ -52,11 +57,12 @@ export default {
         initRootNodePosition:['left', 'center']
       });
       this.mindMap.on('node_click', (data) => {
-        // console.log("node_click",data)
+        //console.log("node_click",data)
         // console.log("data.node.nodeData.data.ableToClick",data.node.nodeData.data.ableToClick)
         if(data.nodeData.data.ableToClick){
           _this.drawer = true
           _this.text_data=data.nodeData.data.text
+          _this.subChapterId=data.nodeData.data.testID
         }
       });
       

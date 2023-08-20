@@ -1,5 +1,6 @@
 <template>
     <div>
+      <span>习题</span>
         <el-form
         :model="ruleForm"
         :rules="rules"
@@ -48,9 +49,11 @@
                 <el-radio :disabled="answered" label="B">{{ item.optionB }}</el-radio>
                 <el-radio :disabled="answered" label="C">{{ item.optionC }}</el-radio>
                 <el-radio :disabled="answered" label="D">{{ item.optionD }}</el-radio>
-            </el-radio-group>
+              </el-radio-group>
             </el-form-item>
-        </div>
+            <span v-if="answered&&item.correct" style="color: green">正确答案:{{ item.correctAnswers }}</span>
+            <span v-if="answered&& !item.correct" style="color: red">正确答案:{{ item.correctAnswers }}</span>
+          </div>
         <!-- 如果questionType 等于1 那么他是多选题 -->
         <!-- 题目绑定的值是 ruleForm.resource[index]  -->
         
@@ -60,13 +63,15 @@
                 @input="change($event)"
                 v-model="ruleForm.resource[index]"
             >
-                <el-checkbox :disabled="answered" label="A">{{ item.optionA }}</el-checkbox>
+                <el-checkbox :disabled="answered" label="A" >{{ item.optionA }}</el-checkbox>
                 <el-checkbox :disabled="answered" label="B">{{ item.optionB }}</el-checkbox>
                 <el-checkbox :disabled="answered" label="C">{{ item.optionC }}</el-checkbox>
                 <el-checkbox :disabled="answered" label="D">{{ item.optionD }}</el-checkbox>
                 <!-- <el-checkbox label="F">{{ item.stSelectf }}</el-checkbox> -->
             </el-checkbox-group>
             </el-form-item>
+            <span v-if="answered&&item.correct" style="color: green">正确答案:{{ item.correctAnswers }}</span>
+            <span v-if="answered&& !item.correct" style="color: red">正确答案:{{ item.correctAnswers }}</span>
         </div>
         
         <!-- 如果questionType 等于2 那么他是判断题 -->
@@ -79,6 +84,8 @@
                 <el-radio :disabled="answered" label="False"></el-radio>
             </el-radio-group>
             </el-form-item>
+            <span v-if="answered&&item.correct" style="color: green">正确答案:{{ item.correctAnswers }}</span>
+            <span v-if="answered&& !item.correct" style="color: red">正确答案:{{ item.correctAnswers }}</span>
         </div>
         
         </div>
@@ -86,9 +93,8 @@
         <!-- 提交函数  -->
         
         <el-form-item style="text-align: center">
-        <el-button type="primary" @click="submitForm('ruleForm')"
-            >提交</el-button
-        >
+        <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
+        <el-button type="primary" @click="goback()">返回</el-button>
         </el-form-item>
         </el-form>
     </div>
@@ -101,7 +107,7 @@ export default {
   data() {
     return {
       answered:false,
-        courseId:1,
+        courseId:4,
         chapterId:1,
         subChapterId:1,
         fit: 'fill',
@@ -136,12 +142,16 @@ export default {
   },
   created(){
     // this.getCode()
+    console.log("exercisePage created")
     this.getExercises();
   },
   methods: {
+    goback(){
+      this.$router.back()
+    },
     getExercises(){
-        request.get("/getExercise/"+this.courseId+"/"+this.chapterId+"/"+this.subChapterId,{headers: {'Content-Type': 'application/x-www-form-urlencoded'}}).then(res => {
-        console.log("userdatas:",res)
+        request.get("/getExercise/"+this.$route.params.courseId+"/"+this.$route.params.chapterId+"/"+this.$route.params.subChapterId,{headers: {'Content-Type': 'application/x-www-form-urlencoded'}}).then(res => {
+        //console.log("userdatas:",res)
         if(res.data.code===200){
             this.question=res.data.data
             console.log("this.question",this.question)
@@ -165,7 +175,7 @@ export default {
             }
             //加上如果返回的结果有useransw就锁定答案
             if(this.question.length>0&&this.question[0].userAnswers!=null){
-              console.log("this.question[0].userAnswers",this.question[0].userAnswers)
+              //console.log("this.question[0].userAnswers",this.question[0].userAnswers)
               this.answered=true
               for(let i=0;i<this.question.length;i++){
                 if(this.question[i].type!=1){
@@ -186,12 +196,24 @@ export default {
         }
       })
 
+
+      request.get("/getScore/"+this.$route.params.courseId+"/"+this.$route.params.chapterId+"/"+this.$route.params.subChapterId,{headers: {'Content-Type': 'application/x-www-form-urlencoded'}}).then(res => {
+        console.log("score:",res)
+      })
+
     },
     change(e) {
     //   this.$forceUpdate()
       // console.log(this.ruleForm.resource)
     },
     submitForm() {			
+      if(this.answered){
+        this.$message({
+            type: "error",
+            message: "你已经提交过答案，请勿重复提交"
+          })
+          return
+      }
       let that=this
       let ans=''
       for (var i = 0; i < this.questionArrText.length; i++) {
@@ -231,7 +253,9 @@ export default {
       request.post("/submitExercise", this.questionArrText,{headers: {'Content-Type': "application/json; charset=utf-8"}}).then(res => {
             console.log("result:",res)
             if (res.data.code === 200) {
+              this.$router.go(0)
               this.$message.success(res.data.message)
+
             } else {
               this.$message({
                 type: "error",
