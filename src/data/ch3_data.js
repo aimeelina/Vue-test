@@ -257,6 +257,6 @@ const knowledgeGraph={
     }
 }
 const chapterId=1
-const courseId=1
+const courseId=4
 
 export default {knowledgeGraph,courseId,chapterId};

@@ -30,6 +30,7 @@ export default {
     }
   },
   mounted() {
+    console.log("mounted")
     this.getData()
     this.init()
   },
@@ -39,7 +40,7 @@ export default {
       this.$router.push('/exercise/'+this.$route.params.courseId+"/"+this.$route.params.chapterId+"/"+this.subChapterId);
     },
     getData() {
-      let storeData = getData()
+      let storeData = getData(this.$route.params.courseId,this.$route.params.chapterId)
       this.mindMapData = storeData
     },
     init() {

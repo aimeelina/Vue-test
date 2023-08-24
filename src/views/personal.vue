@@ -1,15 +1,45 @@
 <template>
-    <div id="myChart" :style="{ width: '500px', height: '500px' }" />
+  <div>
+    <span>完成率：{{completionRate}}%</span>
+    <span>平均分：{{averageScore}}</span>
+    <!-- <div id="myChart" :style="{ width: '500px', height: '500px' }" /> -->
+  </div>
 </template>
   
   
   
   <script>
+    import request from "@/utils/request";
     export default {
+      data() {
+      return {
+        completionRate:0,
+        averageScore:0
+      }
+    },
       mounted() {
         this.drawLine()
+        
+      },
+      created(){
+        this.getScore()
       },
       methods: {
+        getScore(){
+          request.get("/getScore/"+this.$route.params.courseId+"/"+this.$route.params.chapterId+"/0",{headers: {'Content-Type': 'application/x-www-form-urlencoded'}}).then(res => {
+                console.log("Score:",res)
+                if(res.data.code===200){
+                  this.averageScore=res.data.data.averageScore
+                  this.completionRate=res.data.data.completionRate.toFixed(2)*100
+                }
+                else {
+                  this.$message({
+                    type: "error",
+                    message: res.data.message
+                  })
+                }
+              })
+        },
         drawLine() {
           // 基于准备好的dom，初始化echarts实例
           const myChart = this.$echarts.init(document.getElementById('myChart'))

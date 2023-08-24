@@ -1,6 +1,7 @@
 import exampleData from "simple-mind-map/example/exampleData"
 import exampleData_python from "../data/exampleData_python"
 import { simpleDeepClone } from 'simple-mind-map/src/utils/index'
+import request from "@/utils/request";
 
 const SIMPLE_MIND_MAP_DATA = 'SIMPLE_MIND_MAP_DATA'
 
@@ -26,11 +27,22 @@ const copyMindMapTreeData = (tree, root) => {
  * @Date: 2021-08-01 10:10:49 
  * @Desc: 获取缓存的思维导图数据 
  */
-export const getData = () => {
+export const getData = (courseId,chapterId) => {
     let store = localStorage.getItem(SIMPLE_MIND_MAP_DATA)
     // console.log("run simpleDeepClone(exampleData)")
-    // console.log("exampleData",exampleData)
-    return simpleDeepClone(exampleData_python)
+    request.get("/getKnowledgeGraph/"+courseId+"/"+chapterId,{headers: {"Content-Type":"application/json"}}).then(res => {
+        if(res.data.code===200){
+            exampleData_python.root=res.data.data.root
+            console.log("exampleData_python:",exampleData_python)
+            return simpleDeepClone(exampleData_python)
+        }
+        else {
+          this.$message({
+            type: "error",
+            message: res.data.message
+          })
+        }
+      })
     // if (store === null) {
     //     console.log("run simpleDeepClone(exampleData)")
     //     console.log("exampleData",exampleData)

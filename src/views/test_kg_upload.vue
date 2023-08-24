@@ -1,12 +1,14 @@
 <template>
     <el-container>
         <el-button type="primary" @click="upload" style="width: 100%; height: 45px">上传知识图谱</el-button>
+        <el-button type="primary" @click="sendmsg" style="width: 100%; height: 45px">发作业消息</el-button>
+        <el-button type="primary" @click="getKnowledgeGraph" style="width: 100%; height: 45px">获取知识图谱</el-button>
     </el-container>
   </template>
   
   <script>
   import request from "@/utils/request";
-  import kg from "@/data/ch3_data"
+  import kg from "@/data/ch4_data"
    
   export default {
     name: "uploadKGPage",
@@ -36,6 +38,36 @@
           }
         })
         //this.$router.push('/home');
+      },
+      sendmsg() {
+        request.post("/sendHomeworkMsg", {
+            msg:"需要提交第一章作业",
+            courseId:1
+        },{headers: {"Content-Type":"application/x-www-form-urlencoded"}}).then(res => {
+          console.log("res:",res)
+          if(res.data.code===200){
+          }
+          else {
+            this.$message({
+              type: "error",
+              message: res.data.message
+            })
+          }
+        })
+        //this.$router.push('/home');
+      },
+      getKnowledgeGraph(){
+        request.get("/getKnowledgeGraph/"+kg.courseId+"/"+kg.chapterId,{headers: {"Content-Type":"application/json"}}).then(res => {
+          console.log("getKnowledgeGraph:",res)
+          if(res.data.code===200){
+          }
+          else {
+            this.$message({
+              type: "error",
+              message: res.data.message
+            })
+          }
+        })
       }
   
     }
