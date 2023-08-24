@@ -16,7 +16,8 @@ import ExercisePage from "@/views/exercisePage"
 import AllCourses from "@/views/AllCourses"
 import MessageList from "@/views/MessageList"
 import PickedCourses from "@/views/PickedCourses"
-import uploadResource from "@/views/UploadResource"
+// import uploadResource from "@/views/UploadResource"
+import uploadKGPagefrom from "@/views/test_kg_upload"
 // const Answer = () => import('@/views/AnswerCar');
 
 Vue.use(VueRouter)
@@ -115,10 +116,17 @@ const routes = [
         component: ExercisePage
 
      },
+    //  {
+    //     path: '/upload/resource',
+    //     name: "uploadResource",
+    //     component: uploadResource
+
+    //  },
+     
      {
-        path: '/upload/resource',
-        name: "uploadResource",
-        component: uploadResource
+        path: '/upload',
+        name: "uploadKGPagefrom",
+        component: uploadKGPagefrom
 
      }
    
