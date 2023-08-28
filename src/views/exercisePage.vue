@@ -43,12 +43,28 @@
         <!-- 题目绑定的值是 ruleForm.resource[index]  -->
         
         <div v-if="item.type == 0" class="VSTD_box_item_select">
-            <el-form-item label="" prop="resource">
+            <el-form-item label="" prop="resource" size="medium">
             <el-radio-group v-model="ruleForm.resource[index]">
-                <el-radio :disabled="answered" label="A">{{ item.optionA }}</el-radio>
-                <el-radio :disabled="answered" label="B">{{ item.optionB }}</el-radio>
-                <el-radio :disabled="answered" label="C">{{ item.optionC }}</el-radio>
-                <el-radio :disabled="answered" label="D">{{ item.optionD }}</el-radio>
+              <div>
+                <el-radio size="medium" :disabled="answered" label="A">
+                  <span class="option">{{ item.optionA }}</span>
+                </el-radio>
+              </div>
+                <div>
+                  <el-radio :disabled="answered" label="B">
+                    <span class="option">{{ item.optionB }}</span>
+                  </el-radio>
+                </div>
+                <div>
+                  <el-radio :disabled="answered" label="C">
+                    <span class="option">{{ item.optionC }}</span>
+                  </el-radio>
+                </div>
+                <div>
+                  <el-radio :disabled="answered" label="D">
+                    <span class="option">{{ item.optionD }}</span>
+                  </el-radio>
+                </div>
               </el-radio-group>
             </el-form-item>
             <span v-if="answered&&item.correct" style="color: green">正确答案:{{ item.correctAnswers }}</span>
@@ -300,5 +316,10 @@ export default {
  
 .el-range-editor.is-disabled input {
     color: #606266 !important;
+}
+
+.option {
+    margin-left: 0.5em;
+    white-space: pre-wrap;
 }
 </style>

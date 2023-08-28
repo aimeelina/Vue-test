@@ -8,7 +8,7 @@
   
   <script>
   import request from "@/utils/request";
-  import kg from "@/data/ch4_data"
+  import kg from "@/data/ch3_data"
    
   export default {
     name: "uploadKGPage",
