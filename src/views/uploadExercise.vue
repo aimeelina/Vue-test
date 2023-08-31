@@ -78,7 +78,7 @@
         <span>题目配图</span>
         <el-upload
         class="avatar-uploader"
-        action="http://localhost:8080/communityvue/upload/exerciseImg"
+        action="http://8.130.136.34:8080/communityvue/upload/exerciseImg"
         :show-file-list="false"
         :on-success="handleAvatarSuccess"
         :before-upload="beforeAvatarUpload"
@@ -153,6 +153,8 @@ import request from "@/utils/request";
                 else {
                     ans = that.ruleForm.resource
                 }
+                //先初始化answers为0，避免连续上传导致的错误
+                that.exercise.answers=0
                 //将答案转成int
                 if(ans.indexOf('A')!=-1){
                     that.exercise.answers+=1;

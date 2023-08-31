@@ -85,7 +85,7 @@
                     class="avatar-uploader"
                     ref="upload"
                     :show-file-list="false"
-                    action="http://localhost:8080/communityvue/uploadExerciseImg"
+                    action="http://8.130.136.34:8080/communityvue/uploadExerciseImg"
                     :before-upload="beforeAvatarUpload"
                     :on-preview="handleAvatarChange"
                     :on-change="handleAvatarChange"

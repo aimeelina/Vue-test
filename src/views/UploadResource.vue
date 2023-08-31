@@ -4,7 +4,7 @@
         <el-upload
             class="avatar-uploader"
             :data="chapterInfo"
-            action="http://localhost:8080/communityvue/upload/file"
+            action="http://8.130.136.34:8080/communityvue/upload/file"
             :show-file-list="false"
             :with-credentials="true"
             :on-preview="handlePictureCardPreview"

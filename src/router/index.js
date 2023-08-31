@@ -1,11 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import tempLayout from '@/views/templateLayout'
-import TestElementUI from '@/views/TestElementUI'
 import CoursePageLayout from "@/layout/CoursePageLayout";
 import InitLayout from "@/layout/InitLayout";
 import Main from "@/views/Main";
-import gragh from '@/views/gragh'
 import ranking from '@/views/ranking'
 import personal from '@/views/personal'
 import LoginPage from "@/views/LoginPage";
@@ -24,6 +21,11 @@ import UploadExercise from "@/views/uploadExercise"
 Vue.use(VueRouter)
 
 const routes = [
+    {
+        path: '/',
+        name: 'index',
+        redirect: '/login'
+    },
      {
         path: '/login',
         name: "login",
@@ -101,13 +103,13 @@ const routes = [
             }
         ]
     },
-    {
+    {//学生做习题的页面
         path: '/exercise/:courseId/:chapterId/:subChapterId',
         name: "exercise",
         component: ExercisePage
 
      },
-     {
+     {//老师上传习题的页面
         path: '/uploadExercise/:courseId/:chapterId/:subChapterId',
         name: "uploadExercise",
         component: UploadExercise
@@ -131,7 +133,8 @@ const routes = [
 ]
 
 const router = new VueRouter({
-    routes
+    base:"vueTest",
+    routes,
 })
 
 router.beforeEach((to, from, next) => {

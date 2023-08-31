@@ -11,18 +11,26 @@
 </template>
 
 <script>
+import request from "@/utils/request";
 export default {
     name:'activation',
     methods: {
         checkActivation() {
             let _this=this
-          axios.get('http://localhost:8080/communityvue/activation/'+this.$route.params.id+'/'+this.$route.params.activationCode).then(function(resp){
-            console.log(resp)
-            _this.Msg=resp.data.message
-            _this.startDivi()
-          })
+            request.get('/activation/'+this.$route.params.id+'/'+this.$route.params.activationCode).then(res => {
+                console.log("activation.res:",res)
+                if(res.data.code===200){
+                  _this.Msg=resp.data.message
+                 _this.startDivi()
+                }
+                else {
+                  this.$message({
+                    type: "error",
+                    message: res.data.message
+                  })
+                }
+              })
         },
-
         startDivi(){
         const TIME_COUNT = 5;
         if(!this.timer){

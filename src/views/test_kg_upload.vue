@@ -3,6 +3,7 @@
         <el-button type="primary" @click="upload" style="width: 100%; height: 45px">上传知识图谱</el-button>
         <el-button type="primary" @click="sendmsg" style="width: 100%; height: 45px">发作业消息</el-button>
         <el-button type="primary" @click="getKnowledgeGraph" style="width: 100%; height: 45px">获取知识图谱</el-button>
+        <el-button type="primary" @click="initMysql" style="width: 100%; height: 45px">初始化mysql</el-button>
     </el-container>
   </template>
   
@@ -38,6 +39,11 @@
           }
         })
         //this.$router.push('/home');
+      },
+      initMysql(){
+        request.get("/initMysql/1",{headers: {"Content-Type":"application/x-www-form-urlencoded"}}).then(res => {
+          console.log("initMysql:",res)
+        })
       },
       sendmsg() {
         request.post("/sendHomeworkMsg", {
