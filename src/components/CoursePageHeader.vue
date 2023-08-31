@@ -27,9 +27,7 @@
     </el-menu-item>
     <el-menu-item index="personal">个人情况</el-menu-item>
     <el-menu-item index="ranking">班级排名</el-menu-item>
-    
-    <el-menu-item index="gragh">每周题数</el-menu-item>
-    
+    <!-- <el-menu-item index="gragh">每周题数</el-menu-item> -->
     <!-- <el-menu-item index="/answer">答题界面</el-menu-item> -->
     <el-menu-item index="main">知识图谱</el-menu-item>
   </el-menu>
@@ -44,28 +42,6 @@ import request from "@/utils/request";
 export default {
   name: "CoursePageHeader",
   data() {
-    // const checkID = (rule, value, callback) => {
-    //   if (!value) {
-    //     return callback(new Error('学号不能为空'));
-    //   }
-    //   let regPos = /[0-9]/;
-    //   if (!regPos.test(value)) {
-    //     callback(new Error('请输入学号'));
-    //   } else {
-    //     if (value.length !== 12) {
-    //       callback(new Error('学号必须为12位'));
-    //     } else {
-    //       callback();
-    //     }
-    //   }
-    // };
-    // const validatePass = (rule, value, callback) => {
-    //   if (value === '') {
-    //     callback(new Error('请输入密码'));
-    //   } else {
-    //     callback();
-    //   }
-    // };
     return {
       activeIndex: 'this.$router.path',
       isLogin: false,
@@ -75,14 +51,6 @@ export default {
       },
       loginDialog: false,
       fit: 'fill'
-      // rules: {
-      //   id: [
-      //     {validator: checkID, trigger: 'blur'}
-      //   ],
-      //   password: [
-      //     {validator: validatePass, trigger: 'blur'}
-      //   ],
-      // }
     }
   },
   created(){

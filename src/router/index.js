@@ -59,11 +59,6 @@ const routes = [
                 name:'pickedCourses',
                 component:PickedCourses
             },
-            {
-                path: 'personal',
-                name: 'personal',
-                component: personal
-            },
             { 
                 path: 'userSetting',
                 name: 'userSetting',
@@ -87,11 +82,6 @@ const routes = [
                 path: 'main',
                 name: 'Main',
                 component: Main
-            },
-            {
-                path: 'gragh',
-                name: 'gragh',
-                component: gragh
             },
             {
                 path: 'ranking',
