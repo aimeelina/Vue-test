@@ -2,8 +2,8 @@ import axios from 'axios'
 import router from "../router";
 
 const request = axios.create({
-    // baseURL:"http://localhost:8080/communityvue",
-    baseURL:"http://8.130.136.34:8080/communityvue",
+    baseURL:"http://localhost:8080/communityvue",
+    //baseURL:"http://8.130.136.34:8080/communityvue",
     timeout: 5000,
     withCredentials: true,
 })
